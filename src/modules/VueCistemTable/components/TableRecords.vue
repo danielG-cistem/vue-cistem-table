@@ -2,60 +2,41 @@
     <table class="table-wrapper">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Rating</th>
-                <th>Price</th>
+                <template v-for="column in tableStore.columnsHeadings" :key="column.label">
+                    <th>{{ column.label }}</th>
+                </template>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>IPHONE</td>
-                <td>ASDASDASDASDSF DSFSD</td>
-                <td>3.20</td>
-                <td>$ 15,000.00</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>IPHONE</td>
-                <td>ASDASDASDASDSF DSFSD</td>
-                <td>3.20</td>
-                <td>$ 15,000.00</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>IPHONE</td>
-                <td>ASDASDASDASDSF DSFSD</td>
-                <td>3.20</td>
-                <td>$ 15,000.00</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>IPHONE</td>
-                <td>ASDASDASDASDSF DSFSD</td>
-                <td>3.20</td>
-                <td>$ 15,000.00</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>IPHONE</td>
-                <td>ASDASDASDASDSF DSFSD</td>
-                <td>3.20</td>
-                <td>$ 15,000.00</td>
-            </tr>
+            <template v-if="tableStore.data.length === 0">
+                <tr>
+                    <td colspan="5" class="text-center">No hay datos para mostrar.</td>
+                </tr>
+            </template>
+            <template v-else>
+                <tr v-for="row in tableStore.data">
+                    <td v-for="item in Object.keys(row)">
+                        {{ row[item] }}
+                    </td>
+                </tr>
+            </template>
         </tbody>
     </table>
 </template>
 
 <script>
+import { ref } from 'vue';
+import { useTableStore } from '@/stores/tableStore.js';
+
 export default {
     name: 'TableRecords',
     setup () {
         
-
-        return {}
+        const tableStore = useTableStore();
+        
+        return {
+            tableStore,
+        }
     }
 }
 </script>
@@ -83,31 +64,6 @@ export default {
         cursor: pointer;
     }
 
-    .table-wrapper thead tr th:nth-child(1) {
-        background-color: #293277;
-        width: 1%;
-    }
-
-    .table-wrapper thead tr th:nth-child(2) {
-        background-color: #293277;
-        width: 4%;
-    }
-
-    .table-wrapper thead tr th:nth-child(3) {
-        background-color: #293277;
-        width: 10%;
-    }
-
-    .table-wrapper thead tr th:nth-child(4) {
-        background-color: #293277;
-        width: 1%;
-    }
-
-    .table-wrapper thead tr th:nth-child(5) {
-        background-color: #293277;
-        width: 1%;
-    }
-
     .table-wrapper th,
     .table-wrapper td {
         padding: 12px 15px;
@@ -116,6 +72,14 @@ export default {
     .table-wrapper tbody tr {
         border-bottom: 1px solid #dddddd;
     }
+
+    /* .table-wrapper tbody tr td {
+        width: 10%;        
+    } */
+
+    /* .table-wrapper tbody tr td:nth-child(3) {
+        width: 60%;        
+    } */
 
     .table-wrapper tbody tr:nth-of-type(even) {
         background-color: #f3f3f3;
@@ -128,6 +92,10 @@ export default {
     .table-wrapper tbody tr.active-row {
         font-weight: bold;
         color: #293277;
+    }
+
+    .text-center {
+        text-align: center;
     }
 
 </style>

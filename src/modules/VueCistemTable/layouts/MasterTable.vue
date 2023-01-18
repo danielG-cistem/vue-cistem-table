@@ -16,6 +16,7 @@
 
 <script>
 import { defineAsyncComponent } from 'vue';
+import { useTableStore } from '@/stores/tableStore.js';
 
 export default {
     name: 'MasterTable',
@@ -26,10 +27,19 @@ export default {
         RecordsIndicator: defineAsyncComponent(() => import("../components/RecordsIndicator.vue")),
         RecordsPagination: defineAsyncComponent(() => import("../components/RecordsPagination.vue"))
     },
-    setup () {
+    async setup () {
         
+        await new Promise((res) => setTimeout(res, 1500));
+
+        const tableStore = useTableStore();
+
+        const { table } = tableStore.createVueCistemTable();
+        await table.init();
+
+        tableStore.renderData( table );
 
         return {}
+
     }
 }
 </script>
