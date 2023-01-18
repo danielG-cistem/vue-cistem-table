@@ -1,7 +1,7 @@
 <template>
     <div class="master-table-container">
         <div class="controls-wrapper">
-            <RecordsPerPage></RecordsPerPage>
+            <RecordsPerPage :recordsPerPage="recordsPerPage"></RecordsPerPage>
             <SearchForRecords></SearchForRecords>
         </div>
         <div class="table-container">
@@ -61,6 +61,14 @@ export default {
             tableStore.currentPage = table.getCurrentPage();
         }
 
+        // Registros por página.
+        const recordsPerPage = ( recordsPerPage ) => {
+            table.setNumberOfRows( recordsPerPage );
+            renderData();
+            recordsIndicator();
+            initPagination();
+        }
+
         // Página previa.
         const previousPage = () => {
             tableStore.currentPage = table.getCurrentPage();
@@ -70,8 +78,6 @@ export default {
             initPagination();
             previousDisabled();
             nextDisabled();
-            // goToFirstPage()
-            // goToLastPage()
         }
 
         // Página siguiente.
@@ -83,8 +89,6 @@ export default {
             initPagination();
             previousDisabled();
             nextDisabled();
-            // goToFirstPage()
-            // goToLastPage()
         }
 
         // Página actual
@@ -95,8 +99,6 @@ export default {
             recordsIndicator();
             previousDisabled();
             nextDisabled();
-            // goToFirstPage()
-            // goToLastPage()
         }
 
         const goToFirstPage = () => {
@@ -110,9 +112,6 @@ export default {
 
         const goToLastPage = () => {
             tableStore.currentPage = table.getCurrentPage();
-            // const lastPage = table.getLastPage()
-            // console.log("Last: ", lastPage)
-            // renderData( table.getLastPage() );
             tableStore.data.splice(0, tableStore.data.length, ...table.getLastPage());
             initPagination();
             recordsIndicator();
@@ -125,19 +124,15 @@ export default {
         // Desactivar botón de página siguiente.
         const nextDisabled = () => tableStore.currentPage === tableStore.totalPages ? tableStore.next = true : tableStore.next = false;
 
-        // Registros por página.
-        // const recordsPerPage = () => {}
-
         // tableStore.currentPage = table.getCurrentPage();
         renderData();
         recordsIndicator();
         initPagination();
-        // goToFirstPage()
-        // goToLastPage()
         previousDisabled();
         nextDisabled();
 
         return {
+            recordsPerPage,
             previousPage, nextPage, currentPage, goToFirstPage, goToLastPage
         }
 

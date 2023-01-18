@@ -1,23 +1,53 @@
 <template>
     <div class="records-per-page">
         <p>Mostrar</p>
-        <select class="select-page">
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="35">35</option>
-            <option value="50">50</option>
+        <select class="select-page" @change="selectNumber">
+            <option v-for="item in listRecordsPerPage" :key="item.value" :value="item.value">{{ item.text }}</option>
         </select>
         <p>Regisros.</p>
     </div>
 </template>
 
 <script>
+import { ref } from 'vue';
+
 export default {
     name: 'RecordsPerPage',
-    setup () {
-        
+    props: {
+        recordsPerPage: {
+            type: Function,
+            required: true
+        }
+    },
+    setup ( props ) {
 
-        return {}
+        const listRecordsPerPage = ref(
+            [
+                {
+                    value: 10,
+                    text: '10'
+                },
+                {
+                    value: 25,
+                    text: '25'
+                },
+                {
+                    value: 35,
+                    text: '35'
+                },
+                {
+                    value: 50,
+                    text: '50'
+                }
+            ]
+        );
+
+        const selectNumber = ( e ) => props.recordsPerPage( Number(e.target.value) );
+
+        return {
+            listRecordsPerPage,
+            selectNumber
+        }
     }
 }
 </script>
