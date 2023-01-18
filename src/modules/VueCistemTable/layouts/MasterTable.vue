@@ -38,6 +38,8 @@ export default {
 
         tableStore.renderData( table );
 
+        tableStore.recordsIndicator( table );
+
         return {}
 
     }

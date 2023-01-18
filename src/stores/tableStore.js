@@ -10,7 +10,7 @@ export const useTableStore = defineStore('tableStore', {
             init: 0,
             end: 0
         },
-        totalRecords: 0
+        totalRecords: 0,
     }),
     getters: {},
     actions: {
@@ -22,6 +22,12 @@ export const useTableStore = defineStore('tableStore', {
             const currentPage = table.getCurrentPage();
             this.data.splice(0, this.data.length, ...table.getPage( currentPage ));
             return this.data;
+        },
+        recordsIndicator( table ) {
+            const { firstIndex, lastIndex } = table.getPageIndex();
+            this.recordsIndicator.init = firstIndex;
+            this.recordsIndicator.end = lastIndex;
+            this.totalRecords = table.getNumberOfRecords();
         }
     }
 });
