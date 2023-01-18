@@ -1,24 +1,59 @@
 <template>
     <div class="pagination-wrapper">
-        <button class="btn-large">Previo</button>
-        <button class="btn-small btn-first-page">&#60;&#60;</button>
-        <button class="btn-small">1</button>
-        <button class="btn-small">2</button>
-        <button class="btn-small">3</button>
-        <button class="btn-small">4</button>
-        <button class="btn-small">5</button>
-        <button class="btn-small btn-last-page">&#62;&#62;</button>
-        <button class="btn-large">Siguiente</button>
+        <button class="btn-large" @click="btnPreviousPage" :disabled="tableStore.previous">Previo</button>
+        <button class="btn-small btn-first-page" @click="btnFirstPage" :disabled="tableStore.previous">&#60;&#60;</button>
+        <template v-for="page in tableStore.totalPages" :key="page">
+            <!-- <button v-if="page < tableStore.currentPage + 3 && page > tableStore.currentPage - 3" @click="btnPage( page )" class="btn-small" :class="{ 'active-page': page === tableStore.currentPage }">{{ page }}</button>     -->
+            <button v-if="page < tableStore.currentPage + 3 && page > tableStore.currentPage - 3" @click="btnPage( page )" class="btn-small" :class="{ 'active-page': page === tableStore.currentPage }">{{ page }}</button>    
+            
+            <!-- <button class="btn-small" @click="btnPage( page )" :class="{ 'active-page': page === tableStore.currentPage }">{{ page }}</button>     -->
+        </template>
+        <button class="btn-small btn-last-page" @click="btnLastPage" :disabled="tableStore.next">&#62;&#62;</button>
+        <button class="btn-large" @click="btnNextPage" :disabled="tableStore.next">Siguiente</button>
     </div>
 </template>
 
 <script>
+import { useTableStore } from '@/stores/tableStore.js';
+
 export default {
     name: 'RecordsPagination',
-    setup () {
+    props: {
+        previousPage: {
+            type: Function,
+            required: true
+        },
+        nextPage: {
+            type: Function,
+            required: true
+        },
+        currentPage: {
+            type: Function,
+            required: true
+        },
+        goToFirstPage: {
+            type: Function,
+            required: true
+        },
+        goToLastPage: {
+            type: Function,
+            required: true
+        }
+    },
+    setup ( props ) {
         
+        const tableStore = useTableStore();
 
-        return {}
+        const btnPreviousPage = props.previousPage;
+        const btnNextPage = props.nextPage;
+        const btnFirstPage = props.goToFirstPage;
+        const btnLastPage = props.goToLastPage;
+        const btnPage = ( page ) => props.currentPage ( page );
+
+        return {
+            tableStore,
+            btnPreviousPage, btnNextPage, btnFirstPage, btnLastPage, btnPage
+        }
     }
 }
 </script>
@@ -89,7 +124,13 @@ export default {
         background-color: #848484;
     }
 
-    .pagination-active {
+    .btn-first-page:disabled,
+    .btn-last-page:disabled {
+        cursor: not-allowed;
+        background-color: #4c57a9;
+    }
+
+    .active-page {
         background-color: #293277;
         color: #FFFFFF;
     }

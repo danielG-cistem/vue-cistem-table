@@ -10,7 +10,7 @@
         <tbody>
             <template v-if="tableStore.data.length === 0">
                 <tr>
-                    <td colspan="5" class="text-center">No hay datos para mostrar.</td>
+                    <td :colspan="tableStore.columnsHeadings.length" class="text-center">No hay datos para mostrar.</td>
                 </tr>
             </template>
             <template v-else>
@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import { ref } from 'vue';
 import { useTableStore } from '@/stores/tableStore.js';
 
 export default {

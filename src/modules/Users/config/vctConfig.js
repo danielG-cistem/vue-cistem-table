@@ -41,7 +41,7 @@ const LOAD_COLUMN_VALUES = {
 }
 
 const REQUEST_USERS = async () => {
-    const gettingUsers = await serviceAPI.get("/users");
+    const gettingUsers = await serviceAPI.get("/users?limit=100");
     const { users } = gettingUsers.data;
     return users;
 }
