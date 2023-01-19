@@ -2,10 +2,10 @@
     <div class="master-table-container">
         <div class="controls-wrapper">
             <RecordsPerPage :recordsPerPage="recordsPerPage"></RecordsPerPage>
-            <SearchForRecords></SearchForRecords>
+            <SearchForRecords :search="searchByKeyword"></SearchForRecords>
         </div>
         <div class="table-container">
-            <TableRecords></TableRecords>
+            <TableRecords :sorting="sortingByField"></TableRecords>
         </div>
         <div class="controls-wrapper">
             <RecordsIndicator></RecordsIndicator>
@@ -124,7 +124,23 @@ export default {
         // Desactivar botón de página siguiente.
         const nextDisabled = () => tableStore.currentPage === tableStore.totalPages ? tableStore.next = true : tableStore.next = false;
 
-        // tableStore.currentPage = table.getCurrentPage();
+        // Busquedas.
+        const searchByKeyword = ( keyword ) => {
+            table.filterByKeyword( keyword.value );
+            tableStore.currentPage = table.getCurrentPage();
+            tableStore.data.splice(0, tableStore.data.length, ...table.getPage());
+            initPagination();
+            recordsIndicator();
+            previousDisabled();
+            nextDisabled();
+        }
+
+        // Ordenamiento.
+        const sortingByField = ( field ) => {
+            table.sortByField( field );
+            tableStore.data.splice(0, tableStore.data.length, ...table.getPage());
+        }        
+
         renderData();
         recordsIndicator();
         initPagination();
@@ -133,7 +149,9 @@ export default {
 
         return {
             recordsPerPage,
-            previousPage, nextPage, currentPage, goToFirstPage, goToLastPage
+            previousPage, nextPage, currentPage, goToFirstPage, goToLastPage,
+            searchByKeyword,
+            sortingByField
         }
 
     }

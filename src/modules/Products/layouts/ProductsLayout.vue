@@ -25,16 +25,14 @@ export default {
         const tableStore = useTableStore();
         
         tableStore.config = VCT_CONFIG;
-        tableStore.columnsHeadings = ref([
-            { label: 'ID' },
-            { label: 'Title' },
-            { label: 'Description' },
-            { label: 'Price' },
-            { label: 'Stock' },
-        ]);
 
-        // console.log("Config: ", tableStore.config)
-        // console.log("Columns: ", tableStore.columnsHeadings)
+        const labels = Object.entries( VCT_CONFIG.columns )
+        .map( ( [ field, config ] ) => {
+            const { label, sortable } = config;
+            return { label, field, sortable }
+        });
+
+        tableStore.columnsHeadings = labels;
 
         return {}
     }

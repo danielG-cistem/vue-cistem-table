@@ -16,18 +16,11 @@ export function _applyFilters() {
 	
 	const filteredData = this._rawData.filter(record => {
 		const keywordMatch = this._columnsEntries.some(([ field, ]) => {
-			// const value = String(record[field]).toUpperCase();
-
-			// if (mainKeyword && value.includes(mainKeyword)) return true;
-
-			// const { [field]: fieldKeyword } = fieldKeywords;
-
-			// return !!fieldKeyword && value.includes(fieldKeyword);
 			const value = String(record[field]).toUpperCase();
 			const { [field]: fieldKeyword } = fieldKeywords;
 
 			const mainMatch = mainKeyword ? value.includes(mainKeyword) : true;
-			const fieldMatch = fieldKeyword ? value.includes(fieldKeyword) : false;
+			const fieldMatch = fieldKeyword ? value.includes(fieldKeyword) : true;
 
 			return mainMatch && fieldMatch;
 		});

@@ -1,16 +1,30 @@
 <template>
     <div class="search-keyword">
-        <input type="search" placeholder="Buscar..." class="search-input">
+        <input type="search" placeholder="Buscar..." v-model="keyword" @keyup="searchByKeyword" class="search-input">
     </div>
 </template>
 
 <script>
+import { ref } from 'vue';
+
 export default {
     name: 'SearchForRecords',
-    setup () {
+    props: {
+        search: {
+            type: Function,
+            required: true
+        }
+    },
+    setup ( props ) {
         
+        const keyword = ref("");
 
-        return {}
+        const searchByKeyword = () => props.search( keyword );
+
+        return {
+            keyword,
+            searchByKeyword
+        }
     }
 }
 </script>

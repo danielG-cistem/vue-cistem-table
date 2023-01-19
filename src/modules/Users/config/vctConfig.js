@@ -2,42 +2,42 @@ import serviceAPI from '@/api/serviceAPI.js';
 
 const LOAD_COLUMN_VALUES = {
     id: {
-        prop: 'id',
+        label: 'ID',
         default: '1000',
         sortable: true,
         type: 'numeric'
     },
     firstName: {
-        prop: 'firstName',
+        label: 'First Name',
         default: 'default firstName',
         sortable: true,
         type: 'string',
         normalizer: str => str.toUpperCase(),
     },
     lastName: {
-        prop: 'lastName',
+        label: 'Last Name',
         default: 'default lastName',
         normalizer: str => str.toUpperCase(),
     },
     email: {
-        prop: 'email',
+        label: 'Email',
         default: 'default@email.com',
         sortable: true,
         type: 'string',
         normalizer: str => str.toUpperCase(),
     },
     phone: {
-        prop: 'phone',
+        label: 'Phone',
         default: 'default phone',
         sortable: true,
         type: 'string',
         normalizer: str => str.toUpperCase(),
     },
-    image: {
-        prop: 'image',
-        default: 'Not Found',
-        type: 'string',
-    }
+    // image: {
+    //     label: 'image',
+    //     default: 'Not Found',
+    //     type: 'string',
+    // }
 }
 
 const REQUEST_USERS = async () => {

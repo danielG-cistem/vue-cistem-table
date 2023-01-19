@@ -2,37 +2,39 @@ import serviceAPI from '@/api/serviceAPI.js';
 
 const LOAD_COLUMN_VALUES = {
     id: {
-        prop: 'id',
+        // prop: 'id',
+        label: 'ID',
         default: '1000',
         sortable: true,
         type: 'numeric'
     },
     title: {
-        prop: 'title',
+        // prop: 'title',
+        label: 'Title',
         default: 'default title',
         sortable: true,
         type: 'string',
         normalizer: str => str.toUpperCase(),
     },
     description: {
-        prop: 'description',
+        label: 'Description',
         default: 'default description',
         normalizer: str => str.toUpperCase(),
     },
+    stock: {
+        label: 'Stock',
+        default: '0',
+        sortable: true,
+        type: 'numeric',
+        normalizer: price => price.toFixed(2),
+    },
     price: {
-        prop: 'price',
+        label: 'Price',
         default: '0',
         sortable: true,
         type: 'numeric',
         normalizer: price => `$ ${ price.toFixed(2) }`,
     },
-    stock: {
-        prop: 'stock',
-        default: '0',
-        sortable: true,
-        type: 'numeric',
-        normalizer: price => price.toFixed(2),
-    }
 }
 
 const REQUEST_PRODUCTS = async () => {
@@ -40,6 +42,7 @@ const REQUEST_PRODUCTS = async () => {
     const { products } = gettingProducts.data;
     return products;
 }
+
 
 const NUMBER_OF_ROWS = 10;
 
