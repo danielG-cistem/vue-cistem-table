@@ -1,15 +1,19 @@
 {
   "name": "vue-cistem-table",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite --host",
+    "dev": "vite",
+    "dev-network": "vite --host",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "@jridgewell/sourcemap-codec": "^1.4.14",
-    "vue": "^3.2.45"
+    "axios": "^1.2.2",
+    "pinia": "^2.0.29",
+    "vue": "^3.2.45",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",

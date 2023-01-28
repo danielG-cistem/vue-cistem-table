@@ -1,0 +1,53 @@
+import VueCistemTableCore from "./core/VueCistemTableCore.js";
+import * as data from "./use_cases/data.js";
+import * as filters from "./use_cases/filters.js";
+import * as sorters from "./use_cases/sorters.js";
+import * as getters from "./use_cases/getters.js";
+import * as setters from "./use_cases/setters.js";
+
+class VueCistemTable extends VueCistemTableCore {
+	constructor(config) {
+		const { columns, populateFunction, numberOfRows } = config;
+
+		
+		if (typeof columns !== 'object' || columns === null) throw new Error('columns must be an object.'); 
+		const columnsEntries = Object.entries(columns);
+		
+		// console.log("Columns: ", columnsEntries);
+		if (typeof populateFunction !== 'function') throw new Error('populateFunction must be a function.');
+
+		if (!Number.isInteger(numberOfRows)) throw new Error('numberOfRows must be an integer.');
+		if (numberOfRows < 1) throw new Error('numberOfRows must be more than 1.');
+
+		super({ columnsEntries, populateFunction, numberOfRows });
+
+		this._columns = columns;
+	}
+
+	async init() {
+		const { sortTypes } = this._sorter;
+		this._columnsEntries.forEach(([ field, config ]) => {
+			const { sortable, type } = config;
+	
+			if (sortable === true) {
+				if (!sortTypes.includes(type)) throw new Error(`${type} is not a valid sort type.`);
+	
+				this._sorter.sortableFields[field] = type;
+			}
+		});
+
+		await this.populate();
+	}
+};
+
+const methods = {
+	...data,
+	...filters,
+	...sorters,
+	...setters,
+	...getters,
+};
+
+for (const key in methods) VueCistemTable.prototype[key] = methods[key];
+
+export default VueCistemTable;
